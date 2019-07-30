@@ -84,8 +84,8 @@ food_stamps = []
 
 for n in range(len(food_pos)):
     food.goto(food_pos[n])
-    food_stamp= food.stamp
-    food_stamp.append (food_stamp)
+    food_stamp = food.stamp()
+    food_stamps.append (food_stamp)
     
     food.hideturtle()
 
