@@ -22,7 +22,7 @@ food_stamps = []
 
 #Set up positions (x,y) of boxes that make up the snake
 snake = turtle.clone()
-snake.shape("square")
+snake.shape("turtle")
 
 #Hide the turtle object (it's an arrow - we don't need to see it)
 turtle.hideturtle()
@@ -48,22 +48,26 @@ def remove_tail():
 
 
 snake.direction = None
+UP_EDGE = 250
+DOWN_EDGE = -250
+RIGHT_EDGE = 400
+LEFT_EDGE = -400
 
 def up():
     snake.direction="Up"
-    move_snake()
+    
 
 def down():
     snake.direction="Down"
-    move_snake()
+    
 
 def right():
     snake.direction="Right"
-    move_snake()
+    
 
 def left():
     snake.direction="Left"
-    move_snake()
+    
     
 
 turtle.onkeypress(up, "Up")
@@ -72,11 +76,40 @@ turtle.onkeypress(down, "Down")
 turtle.onkeypress(right, "Right")
 turtle.listen()
 
+turtle.register_shape("trash.gif")
+food = turtle.clone()
+food.shape("trash.gif")
+food_pos = [(100,100), (-100,100), (-100,-100), (100,-100)]
+food_stamps = []
+
+for n in range(len(food_pos)):
+    food.goto(food_pos[n])
+    food_stamp= food.stamp
+    food_stamp.append (food_stamp)
+    
+    food.hideturtle()
+
+
+
 def move_snake():
     my_pos = snake.pos()
     x_pos = my_pos[0]
     y_pos = my_pos[1]
-    
+    if x_pos >= RIGHT_EDGE:
+         print("You hit the right edge! Game over!")
+         quit()
+    elif x_pos <= LEFT_EDGE:
+         print("You hit the left edge! Game over!")
+         quit()
+    elif y_pos >= UP_EDGE:
+         print("You hit the up edge! Game over!")
+         quit()
+    elif y_pos <= DOWN_EDGE:
+         print("You hit the down edge! Game over!")
+         quit()
+    turtle.ontimer(move_snake,TIME_STEP)
+
+
     
     if snake.direction == "Up":
         snake.goto(x_pos, y_pos + SQUARE_SIZE)
@@ -88,6 +121,9 @@ def move_snake():
         snake.goto(x_pos - SQUARE_SIZE, y_pos)
 
     new_stamp()
-##    remove_tail()
+    remove_tail()
+
+move_snake()
+
     
 turtle.mainloop()
