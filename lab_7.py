@@ -11,7 +11,7 @@ turtle.setup(SIZE_X, SIZE_Y) #Curious? It's the turtle window
 turtle.penup()
 
 SQUARE_SIZE = 20
-START_LENGTH = 6
+START_LENGTH = 7
 TIME_STEP = 100
 
 #Initialize lists
@@ -28,7 +28,66 @@ snake.shape("square")
 turtle.hideturtle()
 
 def new_stamp():
-    snake_pos=snake.pos()
-    snake.append(snake_pos+100)
-    snake_pos= snake.stamp()
-    snake.append(snake_pos)
+    snake_pos = snake.pos()
+    pos_list.append(snake_pos)
+    snake_stamp = snake.stamp()
+    stamp_list.append(snake_stamp)
+    
+
+for i in range (START_LENGTH):
+    x_pos,y_pos=snake.pos()
+    x_pos+=SQUARE_SIZE
+    snake.goto (x_pos,y_pos)
+    new_stamp()
+                
+
+def remove_tail():
+    old_stamp=stamp_list.pop(0)
+    snake.clearstamp(old_stamp)
+    pos_list.pop(0)
+
+
+snake.direction = None
+
+def up():
+    snake.direction="Up"
+    move_snake()
+
+def down():
+    snake.direction="Down"
+    move_snake()
+
+def right():
+    snake.direction="Right"
+    move_snake()
+
+def left():
+    snake.direction="Left"
+    move_snake()
+    
+
+turtle.onkeypress(up, "Up")
+turtle.onkeypress(left, "Left")
+turtle.onkeypress(down, "Down")
+turtle.onkeypress(right, "Right")
+turtle.listen()
+
+def move_snake():
+    my_pos = snake.pos()
+    x_pos = my_pos[0]
+    y_pos = my_pos[1]
+    
+    
+    if snake.direction == "Up":
+        snake.goto(x_pos, y_pos + SQUARE_SIZE)
+    elif snake.direction=="Down":
+        snake.goto(x_pos, y_pos - SQUARE_SIZE)
+    elif snake.direction=="Right":
+        snake.goto(x_pos+ SQUARE_SIZE, y_pos )
+    elif snake.direction=="Left":
+        snake.goto(x_pos - SQUARE_SIZE, y_pos)
+
+    new_stamp()
+##    remove_tail()
+    
+turtle.mainloop()
